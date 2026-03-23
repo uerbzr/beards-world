@@ -25,7 +25,7 @@ export default function App() {
           background: "black",
           display: "block",
         }}
-        camera={{ position: [0, 800, 90], fov: 50 }}
+        camera={{ position: [0, 800, 90], fov: 50, near: 1, far: 50000 }}
       >
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} intensity={1} />
