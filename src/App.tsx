@@ -2,6 +2,7 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import { Model } from "./Model";
+import { ScrollMove } from "./ScrollMove";
 
 export default function App() {
   return (
@@ -24,7 +25,7 @@ export default function App() {
           background: "black",
           display: "block",
         }}
-        camera={{ position: [0, 2, 5], fov: 50 }}
+        camera={{ position: [0, 800, 90], fov: 50 }}
       >
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} intensity={1} />
@@ -35,6 +36,7 @@ export default function App() {
         <Model />
 
         <OrbitControls />
+        <ScrollMove />
       </Canvas>
     </div>
   );
