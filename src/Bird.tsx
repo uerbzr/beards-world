@@ -7,9 +7,10 @@ interface BirdProps {
   onPoo: (poo: PooItem) => void;
   height: number;
   onHeightChange: (h: number) => void;
+  onRotationChange: (r: number) => void;
 }
 
-export function Bird({ onPoo, height, onHeightChange }: BirdProps) {
+export function Bird({ onPoo, height, onHeightChange, onRotationChange }: BirdProps) {
   const groupRef = useRef<THREE.Group>(null);
   const leftWingRef = useRef<THREE.Group>(null);
   const rightWingRef = useRef<THREE.Group>(null);
@@ -49,6 +50,11 @@ export function Bird({ onPoo, height, onHeightChange }: BirdProps) {
       window.removeEventListener("keyup", handleKeyUp);
     };
   }, [pos, onPoo]);
+
+  // Report rotation changes to parent
+  useEffect(() => {
+    onRotationChange(rotation);
+  }, [rotation, onRotationChange]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();

@@ -18,6 +18,7 @@ export default function App() {
   const [bgColor, setBgColor] = useState("#000000");
   const [fov, setFov] = useState(50);
   const [birdHeight, setBirdHeight] = useState(150);
+  const [birdRotation, setBirdRotation] = useState(0);
   const [poos, setPoos] = useState<PooItem[]>([]);
   const [score, setScore] = useState(0);
 
@@ -29,6 +30,37 @@ export default function App() {
     setPoos((prev) => prev.filter((p) => p.id !== id1 && p.id !== id2));
     setScore((prev) => prev + 1);
   }, []);
+
+  // Convert rotation angle to compass direction
+  const getCompassDirection = (rotationRad: number): string => {
+    // Normalize rotation to 0-2π
+    let normalizedRotation = rotationRad % (Math.PI * 2);
+    if (normalizedRotation < 0) normalizedRotation += Math.PI * 2;
+    
+    // Convert radians to degrees (0-360)
+    const degrees = (normalizedRotation * 180) / Math.PI;
+    
+    // Map degrees to compass directions
+    // 0° = N (pointing in +Z direction in Three.js), increases clockwise when viewed from above
+    const directions = [
+      { min: 0, max: 22.5, label: "N" },
+      { min: 22.5, max: 67.5, label: "NE" },
+      { min: 67.5, max: 112.5, label: "E" },
+      { min: 112.5, max: 157.5, label: "SE" },
+      { min: 157.5, max: 202.5, label: "S" },
+      { min: 202.5, max: 247.5, label: "SW" },
+      { min: 247.5, max: 292.5, label: "W" },
+      { min: 292.5, max: 337.5, label: "NW" },
+      { min: 337.5, max: 360, label: "N" },
+    ];
+    
+    for (const dir of directions) {
+      if (degrees >= dir.min && degrees < dir.max) {
+        return dir.label;
+      }
+    }
+    return "N";
+  };
 
   return (
     <div
@@ -49,8 +81,15 @@ export default function App() {
 
         <div className="control-group">
           <div className="label-text">
-            <span>Bird Height (↑/↓)</span>
+            <span>Altitude (↑/↓)</span>
             <span className="value-display">{birdHeight}</span>
+          </div>
+        </div>
+
+        <div className="control-group">
+          <div className="label-text">
+            <span>Direction (←/→)</span>
+            <span className="value-display">{getCompassDirection(birdRotation)}</span>
           </div>
         </div>
 
@@ -229,7 +268,7 @@ export default function App() {
         <Environment preset="sunset" />
 
         <Model />
-        <Bird onPoo={handlePoo} height={birdHeight} onHeightChange={setBirdHeight} />
+        <Bird onPoo={handlePoo} height={birdHeight} onHeightChange={setBirdHeight} onRotationChange={setBirdRotation} />
         <PooManager poos={poos} onCollision={handleCollision} />
         <Clouds />
 
