@@ -1,3 +1,120 @@
 body {
   background-color: silver;
+  margin: 0;
+  overflow: hidden;
+}
+
+.controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-right: 1px solid #333;
+  overflow-y: auto;
+}
+
+.controls h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 2px solid #555;
+  padding-bottom: 10px;
+  color: #fff;
+}
+
+.controls .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.controls .label-text {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+}
+
+.controls .value-display {
+  color: #00ffcc;
+  font-family: monospace;
+}
+
+.controls input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+.controls input[type="color"] {
+  width: 100%;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+.controls hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 10px 0;
+}
+
+/* Score Panel */
+.score-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 24px 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-left: 1px solid #333;
+  border-bottom: 1px solid #333;
+  border-bottom-left-radius: 12px;
+}
+
+.score-label {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.score-value {
+  font-size: 48px;
+  font-weight: 800;
+  color: #00ffcc;
+  font-family: monospace;
+  text-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+  line-height: 1;
+}
+
+.score-hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 4px;
 }
