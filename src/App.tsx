@@ -1,11 +1,12 @@
 // src/App.tsx
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 import { Model } from "./Model";
-import { ScrollMove } from "./ScrollMove";
 import { Bird } from "./Bird";
 import { Clouds } from "./Cloud";
+import { PooManager } from "./Poo";
+import type { PooItem } from "./Poo";
 
 export default function App() {
   const [ambientIntensity, setAmbientIntensity] = useState(0.5);
@@ -16,6 +17,18 @@ export default function App() {
   ]);
   const [bgColor, setBgColor] = useState("#000000");
   const [fov, setFov] = useState(50);
+  const [birdHeight, setBirdHeight] = useState(150);
+  const [poos, setPoos] = useState<PooItem[]>([]);
+  const [score, setScore] = useState(0);
+
+  const handlePoo = useCallback((poo: PooItem) => {
+    setPoos((prev) => [...prev, poo]);
+  }, []);
+
+  const handleCollision = useCallback((id1: number, id2: number) => {
+    setPoos((prev) => prev.filter((p) => p.id !== id1 && p.id !== id2));
+    setScore((prev) => prev + 1);
+  }, []);
 
   return (
     <div
@@ -33,6 +46,15 @@ export default function App() {
     >
       <div className="controls">
         <h3>Scene Controls</h3>
+
+        <div className="control-group">
+          <div className="label-text">
+            <span>Bird Height (↑/↓)</span>
+            <span className="value-display">{birdHeight}</span>
+          </div>
+        </div>
+
+        <hr />
 
         <div className="control-group">
           <label>
@@ -207,12 +229,18 @@ export default function App() {
         <Environment preset="sunset" />
 
         <Model />
-        <Bird />
+        <Bird onPoo={handlePoo} height={birdHeight} onHeightChange={setBirdHeight} />
+        <PooManager poos={poos} onCollision={handleCollision} />
         <Clouds />
 
-        <OrbitControls />
-        <ScrollMove />
       </Canvas>
+
+      {/* Score Panel */}
+      <div className="score-panel">
+        <div className="score-label">SCORE</div>
+        <div className="score-value">{score}</div>
+        <div className="score-hint">Drop 💩 on 💩!</div>
+      </div>
     </div>
   );
 }
