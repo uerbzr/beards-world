@@ -9,6 +9,7 @@ The `Bird` component is the main interactive element of the scene. It's a low-po
 - **Movement**: The bird moves forward automatically in the direction it's facing.
 - **Controls**:
   - `ArrowLeft` / `ArrowRight`: Rotates the bird left or right.
+  - `ArrowUp` / `ArrowDown`: Adjusts the bird's height (20–500 units).
   - `P`: Releases a text object ("poo") at the bird's current position.
 - **Features**:
   - **Camera Follow**: The camera smoothly follows behind the bird using a lerp function, maintaining a consistent view of the action.
